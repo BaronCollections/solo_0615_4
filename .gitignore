@@ -12,6 +12,37 @@ dist
 dist-ssr
 *.local
 
+# Build outputs & cache
+*.tsbuildinfo
+.vite
+.cache
+.turbo
+.parcel-cache
+
+# Testing & coverage
+coverage
+.nyc_output
+jest.config.ts.snap
+
+# Environment variables
+.env
+.env.*
+!.env.example
+!.env.development.local
+!.env.test.local
+!.env.production.local
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.bak
+*.patch
+
+# Package manager locks (if using pnpm/yarn exclusively, uncomment as needed)
+# pnpm-lock.yaml
+# yarn.lock
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +53,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo

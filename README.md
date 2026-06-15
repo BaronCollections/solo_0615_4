@@ -1,5 +1,107 @@
-# Vue 3 + TypeScript + Vite
+# 智慧校园管理系统 - 登录页
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+智慧校园管理系统的前端登录页面，基于 Vue 3 + TypeScript + Vite + Element Plus 构建。
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 技术栈
+
+- **框架**: Vue 3 (Composition API + `<script setup>`)
+- **语言**: TypeScript
+- **构建工具**: Vite
+- **UI 组件库**: Element Plus
+- **图标**: @element-plus/icons-vue
+
+## 项目启动
+
+### 环境要求
+
+- Node.js >= 18
+- npm (或 yarn / pnpm)
+
+### 安装依赖
+
+```bash
+npm install
+```
+
+### 启动开发服务
+
+```bash
+npm run dev
+```
+
+启动后访问终端输出的本地地址（默认 http://localhost:5173）。
+
+### 类型检查
+
+```bash
+npm run type-check
+```
+
+仅执行 TypeScript 类型检查，不生成构建产物。
+
+### 构建生产版本
+
+```bash
+npm run build
+```
+
+先执行类型检查，通过后再构建，产物输出到 `dist/` 目录。
+
+### 预览生产构建
+
+```bash
+npm run preview
+```
+
+启动本地静态服务预览 `dist/` 目录下的构建产物。
+
+## 测试账号
+
+系统内置三种角色的测试账号（Mock 数据，仅用于本地开发）：
+
+| 角色 | 账号 | 密码 | 姓名 |
+| ---- | ---- | ---- | ---- |
+| 管理员 | `admin` | `admin123` | 系统管理员 |
+| 教师 | `teacher` | `teacher123` | 李老师 |
+| 学生 | `student` | `student123` | 张同学 |
+
+登录页底部也会展示测试账号提示。
+
+## 当前功能范围
+
+### ✅ 已实现
+
+1. **登录表单**
+   - 账号 / 密码输入校验（必填校验，失焦触发）
+   - 密码显示 / 隐藏切换
+   - 回车键快捷登录
+   - 登录按钮 Loading 状态
+
+2. **记住账号**
+   - 勾选后将账号持久化到 localStorage
+   - 下次打开页面自动回填
+   - 取消勾选时清除已存储的账号
+
+3. **登录验证（Mock）**
+   - 基于前端 Mock 数据的账号密码校验
+   - 错误提示：账号不存在 / 密码错误 / 未输入
+   - 登录成功后展示用户信息卡片
+
+4. **登录成功页**
+   - 显示登录用户姓名和角色标签（不同角色显示不同颜色）
+   - 支持退出登录，返回登录表单
+   - 未勾选"记住账号"时退出会清空输入的账号
+
+5. **UI 样式**
+   - 渐变紫色背景
+   - 圆角卡片 + 阴影效果
+   - Element Plus 组件统一美化
+
+### 🔜 待规划
+
+- 接入真实后端登录接口
+- 增加图形验证码 / 短信验证码
+- 接入路由系统，登录成功后跳转到对应首页
+- 增加权限管理与动态路由
+- 国际化（i18n）支持
+- 完善单元测试和 E2E 测试
