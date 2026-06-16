@@ -1,12 +1,4 @@
-export type UserRole = 'admin' | 'teacher' | 'student'
-
-export interface MockUser {
-  username: string
-  password: string
-  name: string
-  role: UserRole
-  roleLabel: string
-}
+import type { MockUser } from '../types/auth'
 
 export const mockUsers: MockUser[] = [
   {

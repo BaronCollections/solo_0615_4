@@ -1,10 +1,5 @@
-import { mockUsers, type MockUser } from '../mock/accounts'
-
-export interface LoginResult {
-  success: boolean
-  message: string
-  user?: MockUser
-}
+import { mockUsers } from '../mock/accounts'
+import type { LoginResult } from '../types/auth'
 
 export function validateLogin(username: string, password: string): LoginResult {
   if (!username || !password) {
