@@ -13,10 +13,31 @@ export function useAuth() {
   const rememberedUsername = ref('')
 
   const loadRememberedUsername = () => {
-    const saved = localStorage.getItem(REMEMBERED_USERNAME_KEY)
-    if (saved) {
-      rememberedUsername.value = saved
-      rememberMe.value = true
+    try {
+      const saved = localStorage.getItem(REMEMBERED_USERNAME_KEY)
+      if (!saved || saved.trim() === '') {
+        return
+      }
+
+      let username: string
+      if (saved.startsWith('{') || saved.startsWith('[')) {
+        const parsed = JSON.parse(saved)
+        if (typeof parsed === 'string') {
+          username = parsed
+        } else if (parsed && typeof parsed === 'object' && 'username' in parsed && typeof (parsed as any).username === 'string') {
+          username = (parsed as any).username
+        } else {
+          return
+        }
+      } else {
+        username = saved
+      }
+
+      if (username.trim() !== '') {
+        rememberedUsername.value = username
+        rememberMe.value = true
+      }
+    } catch {
     }
   }
 
