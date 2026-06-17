@@ -11,6 +11,7 @@ const {
   loading,
   rememberMe,
   rememberedUsername,
+  loginTime,
   login,
   logout,
   handleRememberMeChange,
@@ -64,6 +65,8 @@ onMounted(() => {
     <LoginSuccess
       v-else
       :user="user"
+      :login-time="loginTime"
+      :remember-me="rememberMe"
       @logout="handleLogout"
     />
   </div>

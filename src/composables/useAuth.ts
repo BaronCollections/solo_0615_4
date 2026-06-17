@@ -11,6 +11,7 @@ export function useAuth() {
   const error = ref<string | null>(null)
   const rememberMe = ref(false)
   const rememberedUsername = ref('')
+  const loginTime = ref<Date | null>(null)
 
   const loadRememberedUsername = () => {
     try {
@@ -66,6 +67,7 @@ export function useAuth() {
             rememberedUsername.value = ''
           }
           user.value = result.user
+          loginTime.value = new Date()
           ElMessage.success(result.message)
           resolve(true)
         } else {
@@ -82,6 +84,7 @@ export function useAuth() {
   const logout = () => {
     user.value = null
     error.value = null
+    loginTime.value = null
   }
 
   const clearError = () => {
@@ -98,6 +101,7 @@ export function useAuth() {
     error,
     rememberMe,
     rememberedUsername,
+    loginTime,
     login,
     logout,
     handleRememberMeChange,
