@@ -1,25 +1,21 @@
 import type { MockUser } from '../types/auth'
+import { getRoleLabel } from '../constants/roleConfig'
+
+const createMockUser = (
+  username: string,
+  password: string,
+  name: string,
+  role: MockUser['role']
+): MockUser => ({
+  username,
+  password,
+  name,
+  role,
+  roleLabel: getRoleLabel(role)
+})
 
 export const mockUsers: MockUser[] = [
-  {
-    username: 'admin',
-    password: 'admin123',
-    name: '系统管理员',
-    role: 'admin',
-    roleLabel: '管理员'
-  },
-  {
-    username: 'teacher',
-    password: 'teacher123',
-    name: '李老师',
-    role: 'teacher',
-    roleLabel: '教师'
-  },
-  {
-    username: 'student',
-    password: 'student123',
-    name: '张同学',
-    role: 'student',
-    roleLabel: '学生'
-  }
+  createMockUser('admin', 'admin123', '系统管理员', 'admin'),
+  createMockUser('teacher', 'teacher123', '李老师', 'teacher'),
+  createMockUser('student', 'student123', '张同学', 'student')
 ]

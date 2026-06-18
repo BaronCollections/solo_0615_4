@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Warning } from '@element-plus/icons-vue'
 import type { MockUser } from '../../types/auth'
+import { getRoleTagType } from '../../constants/roleConfig'
 
 interface Props {
   user: MockUser
@@ -14,19 +15,6 @@ interface Emits {
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
-
-const getRoleTagType = (role: string) => {
-  switch (role) {
-    case 'admin':
-      return 'danger'
-    case 'teacher':
-      return 'warning'
-    case 'student':
-      return 'success'
-    default:
-      return 'info'
-  }
-}
 
 const formatLoginTime = (date: Date | null) => {
   if (!date) return '—'
