@@ -4,7 +4,7 @@ import { useAuth } from '../composables/useAuth'
 import LoginForm from '../components/login/LoginForm.vue'
 import LoginSuccess from '../components/login/LoginSuccess.vue'
 import TestAccounts from '../components/login/TestAccounts.vue'
-import type { LoginFormData } from '../types/auth'
+import type { LoginFormData, MockUser } from '../types/auth'
 
 const {
   user,
@@ -43,6 +43,11 @@ const handleLogout = () => {
   }
 }
 
+const handleSelectAccount = (account: MockUser) => {
+  if (!loginFormRef.value) return
+  loginFormRef.value.fillForm(account.username, account.password)
+}
+
 onMounted(() => {
   loadRememberedUsername()
 })
@@ -59,7 +64,7 @@ onMounted(() => {
         @submit="handleLoginSubmit"
         @remember-me-change="handleRememberMeChange"
       />
-      <TestAccounts />
+      <TestAccounts @select-account="handleSelectAccount" />
     </template>
 
     <LoginSuccess

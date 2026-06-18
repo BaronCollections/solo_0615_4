@@ -50,6 +50,11 @@ defineExpose({
   getFormData: () => formData.value,
   resetPassword: () => {
     formData.value.password = ''
+  },
+  fillForm: (username: string, password: string) => {
+    formData.value.username = username
+    formData.value.password = password
+    loginFormRef.value?.clearValidate()
   }
 })
 

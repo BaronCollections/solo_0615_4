@@ -1,5 +1,16 @@
 <script setup lang="ts">
 import { mockUsers } from '../../mock/accounts'
+import type { MockUser } from '../../types/auth'
+
+interface Emits {
+  (e: 'select-account', account: MockUser): void
+}
+
+const emit = defineEmits<Emits>()
+
+const handleAccountClick = (user: MockUser) => {
+  emit('select-account', user)
+}
 </script>
 
 <template>
@@ -15,6 +26,8 @@ import { mockUsers } from '../../mock/accounts'
         :closable="false"
         show-icon
         class="account-item"
+        :class="['clickable', `role-${user.role}`]"
+        @click="handleAccountClick(user)"
       />
     </div>
   </div>
@@ -39,5 +52,32 @@ import { mockUsers } from '../../mock/accounts'
 
 .account-item :deep(.el-alert__content) {
   width: 100%;
+}
+
+.account-item.clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.account-item.clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #409eff;
+}
+
+.account-item.clickable:active {
+  transform: translateY(0);
+}
+
+.account-item.role-admin:hover :deep(.el-alert__title) {
+  color: #409eff;
+}
+
+.account-item.role-teacher:hover :deep(.el-alert__title) {
+  color: #67c23a;
+}
+
+.account-item.role-student:hover :deep(.el-alert__title) {
+  color: #e6a23c;
 }
 </style>
