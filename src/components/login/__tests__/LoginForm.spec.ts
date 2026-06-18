@@ -36,6 +36,26 @@ describe('LoginForm.vue', () => {
       expect(formData.password).toBe(admin.password)
     })
 
+    it('after fillForm validation passes and fields are populated', async () => {
+      const wrapper = mountComponent()
+      const vm = wrapper.vm as any
+
+      vm.fillForm('admin', 'admin123')
+      await nextTick()
+
+      const formData = vm.getFormData()
+      expect(formData.username).toBe('admin')
+      expect(formData.password).toBe('admin123')
+
+      let validationResult: boolean | undefined
+      await vm.validate((valid: boolean) => {
+        validationResult = valid
+      })
+      await nextTick()
+
+      expect(validationResult).toBe(true)
+    })
+
     it('does not emit submit after fillForm', async () => {
       const wrapper = mountComponent()
       const vm = wrapper.vm as any

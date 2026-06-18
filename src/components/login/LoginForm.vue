@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, nextTick } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { LoginFormData } from '../../types/auth'
@@ -20,6 +20,7 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const loginFormRef = ref<FormInstance>()
+const passwordInputRef = ref()
 
 const formData = ref<LoginFormData>({
   username: props.initialUsername || '',
@@ -55,6 +56,9 @@ defineExpose({
     formData.value.username = username
     formData.value.password = password
     loginFormRef.value?.clearValidate()
+    nextTick(() => {
+      passwordInputRef.value?.focus?.()
+    })
   }
 })
 
@@ -107,6 +111,7 @@ const handleKeyupEnter = () => {
 
       <el-form-item prop="password">
         <el-input
+          ref="passwordInputRef"
           v-model="formData.password"
           type="password"
           placeholder="请输入密码"

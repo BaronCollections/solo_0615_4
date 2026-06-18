@@ -112,6 +112,74 @@ describe('Login.vue - 测试账号一键填入回归测试', () => {
     })
   })
 
+  describe('先触发必填错误后点击测试账号：清除校验提示 + 可直接回车登录', () => {
+    it('先触发必填校验失败 -> 点击测试账号填入 -> 校验通过 + 直接回车登录成功', async () => {
+      const wrapper = mountLogin()
+      const alerts = getTestAccountAlerts(wrapper)
+      const loginBtn = getLoginButton(wrapper)
+
+      await loginBtn.trigger('click')
+      await nextTick()
+      await vi.advanceTimersByTimeAsync(100)
+      await nextTick()
+
+      expect(wrapper.find('.login-card').exists()).toBe(true)
+
+      await alerts[0].trigger('click')
+      await nextTick()
+      await vi.advanceTimersByTimeAsync(100)
+
+      const inputsAfterFill = wrapper.findAll('.login-card input')
+      expect((inputsAfterFill[0].element as HTMLInputElement).value).toBe('admin')
+      expect((inputsAfterFill[1].element as HTMLInputElement).value).toBe('admin123')
+
+      const passwordInputAfter = wrapper.findAll('.login-card input')[1]
+      await passwordInputAfter.trigger('keyup.enter')
+      await nextTick()
+
+      await vi.advanceTimersByTimeAsync(600)
+      await nextTick()
+
+      expect(wrapper.find('.login-card').exists()).toBe(false)
+      const successComp = wrapper.findComponent({ name: 'LoginSuccess' })
+      expect(successComp.exists()).toBe(true)
+      expect(wrapper.text()).toContain('系统管理员')
+    })
+
+    it('先触发校验失败 -> 点击测试账号填入学生 -> 校验通过 + 回车登录成功', async () => {
+      const wrapper = mountLogin()
+      const alerts = getTestAccountAlerts(wrapper)
+      const loginBtn = getLoginButton(wrapper)
+
+      await loginBtn.trigger('click')
+      await nextTick()
+      await vi.advanceTimersByTimeAsync(100)
+      await nextTick()
+
+      expect(wrapper.find('.login-card').exists()).toBe(true)
+
+      await alerts[2].trigger('click')
+      await nextTick()
+      await vi.advanceTimersByTimeAsync(100)
+
+      const inputsAfterFill = wrapper.findAll('.login-card input')
+      expect((inputsAfterFill[0].element as HTMLInputElement).value).toBe('student')
+      expect((inputsAfterFill[1].element as HTMLInputElement).value).toBe('student123')
+
+      const passwordInputAfter = wrapper.findAll('.login-card input')[1]
+      await passwordInputAfter.trigger('keyup.enter')
+      await nextTick()
+
+      await vi.advanceTimersByTimeAsync(600)
+      await nextTick()
+
+      expect(wrapper.find('.login-card').exists()).toBe(false)
+      const successComp = wrapper.findComponent({ name: 'LoginSuccess' })
+      expect(successComp.exists()).toBe(true)
+      expect(wrapper.text()).toContain('张同学')
+    })
+  })
+
   describe('填入后主动触发登录才进入成功态', () => {
     it('教师账号填入后 -> 点击登录按钮 -> 进入登录成功态', async () => {
       const wrapper = mountLogin()
