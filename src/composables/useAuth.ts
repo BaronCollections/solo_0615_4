@@ -35,7 +35,7 @@ export function useAuth() {
       }
 
       if (username.trim() !== '') {
-        rememberedUsername.value = username
+        rememberedUsername.value = username.trim()
         rememberMe.value = true
       }
     } catch {
@@ -59,9 +59,10 @@ export function useAuth() {
         const result = validateLogin(username, password)
         
         if (result.success && result.user) {
+          const trimmedUsername = username.trim()
           if (rememberMe.value) {
-            localStorage.setItem(REMEMBERED_USERNAME_KEY, username)
-            rememberedUsername.value = username
+            localStorage.setItem(REMEMBERED_USERNAME_KEY, trimmedUsername)
+            rememberedUsername.value = trimmedUsername
           } else {
             localStorage.removeItem(REMEMBERED_USERNAME_KEY)
             rememberedUsername.value = ''

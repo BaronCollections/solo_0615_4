@@ -54,16 +54,28 @@ defineExpose({
 })
 
 const loginRules: FormRules = {
-  username: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+  username: [
+    {
+      required: true,
+      validator: (_rule: any, value: string, callback: (error?: Error) => void) => {
+        if (!value || !value.trim()) {
+          callback(new Error('请输入账号'))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'blur'
+    }
+  ],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 }
 
 const handleSubmit = () => {
-  emit('submit', { ...formData.value })
+  emit('submit', { username: formData.value.username.trim(), password: formData.value.password })
 }
 
 const handleKeyupEnter = () => {
-  emit('submit', { ...formData.value })
+  emit('submit', { username: formData.value.username.trim(), password: formData.value.password })
 }
 </script>
 

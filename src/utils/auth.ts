@@ -2,12 +2,14 @@ import { mockUsers } from '../mock/accounts'
 import type { LoginResult } from '../types/auth'
 
 export function validateLogin(username: string, password: string): LoginResult {
-  if (!username || !password) {
+  const trimmedUsername = username.trim()
+
+  if (!trimmedUsername || !password) {
     return {
       success: false, message: '请输入账号和密码' }
   }
 
-  const user = mockUsers.find((u) => u.username === username)
+  const user = mockUsers.find((u) => u.username === trimmedUsername)
 
   if (!user) {
     return {

@@ -109,4 +109,39 @@ describe('useAuth', () => {
     expect(user.value).toBeNull()
     expect(loginTime.value).toBeNull()
   })
+
+  describe('remember me trims username', () => {
+    it('stores trimmed username when rememberMe is true', async () => {
+      const { auth } = mountWithAuth()
+      const { login, rememberMe } = auth
+
+      rememberMe.value = true
+
+      const resultPromise = login('  admin  ', 'admin123')
+      vi.advanceTimersByTime(600)
+      await resultPromise
+
+      const stored = localStorage.getItem('smart_campus_remembered_username')
+      expect(stored).toBe('admin')
+    })
+
+    it('restores trimmed username from localStorage', async () => {
+      localStorage.setItem('smart_campus_remembered_username', '  admin  ')
+
+      const Comp = defineComponent({
+        setup() {
+          const auth = useAuth()
+          return { auth }
+        },
+        template: '<div />'
+      })
+      const wrapper = mount(Comp)
+      const auth = (wrapper.vm as any).auth
+
+      await vi.advanceTimersByTimeAsync(0)
+
+      expect(auth.rememberedUsername.value).toBe('admin')
+      expect(auth.rememberMe.value).toBe(true)
+    })
+  })
 })
