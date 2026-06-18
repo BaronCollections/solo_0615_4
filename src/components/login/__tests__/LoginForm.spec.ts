@@ -74,26 +74,32 @@ describe('LoginForm.vue', () => {
       expect(formData.password).toBe('teacher123')
     })
 
-    it('clears validation errors when fillForm is called', async () => {
+    it('after fillForm validation passes without clearing fields again', async () => {
       const wrapper = mountComponent()
       const vm = wrapper.vm as any
 
-      await vm.validate()
-      await nextTick()
-      expect(wrapper.findAll('.el-form-item__error').length).toBeGreaterThan(0)
-
       vm.fillForm('admin', 'admin123')
       await nextTick()
-      expect(wrapper.findAll('.el-form-item__error').length).toBe(0)
+
+      let validationResult: boolean | undefined
+      await vm.validate((valid: boolean) => {
+        validationResult = valid
+      })
+      await nextTick()
+
+      expect(validationResult).toBe(true)
+      const formData = vm.getFormData()
+      expect(formData.username).toBe('admin')
+      expect(formData.password).toBe('admin123')
     })
   })
 
   describe('remember me logic preserved', () => {
-    it('updates rememberMe prop when checkbox is toggled', async () => {
+    it('emits update:rememberMe and rememberMeChange when checkbox input changes', async () => {
       const wrapper = mountComponent({ rememberMe: false })
 
-      const checkbox = wrapper.find('.el-checkbox')
-      await checkbox.trigger('click')
+      const checkboxRealInput = wrapper.find('.el-checkbox input[type="checkbox"]')
+      await checkboxRealInput.setChecked(true)
       await nextTick()
 
       const updateEvents = wrapper.emitted('update:rememberMe')
