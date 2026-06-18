@@ -3,7 +3,6 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import ElementPlus from 'element-plus'
 import Login from '../Login.vue'
-import { mockUsers } from '../../mock/accounts'
 
 const mountLogin = () => {
   localStorage.clear()
