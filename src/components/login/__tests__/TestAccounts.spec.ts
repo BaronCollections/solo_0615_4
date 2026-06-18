@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import ElementPlus from 'element-plus'
 import TestAccounts from '../TestAccounts.vue'
+import type { MockUser } from '../../../types/auth'
 import { mockUsers } from '../../../mock/accounts'
 
 describe('TestAccounts.vue', () => {
@@ -29,7 +30,7 @@ describe('TestAccounts.vue', () => {
 
       await alerts[0].trigger('click')
 
-      const emitted = wrapper.emitted('select-account')
+      const emitted = wrapper.emitted('select-account') as [MockUser][] | undefined
       expect(emitted).toBeTruthy()
       expect(emitted!.length).toBe(1)
       expect(emitted![0][0]).toEqual(mockUsers[0])
@@ -44,7 +45,7 @@ describe('TestAccounts.vue', () => {
 
       await alerts[1].trigger('click')
 
-      const emitted = wrapper.emitted('select-account')
+      const emitted = wrapper.emitted('select-account') as [MockUser][] | undefined
       expect(emitted).toBeTruthy()
       expect(emitted!.length).toBe(1)
       expect(emitted![0][0]).toEqual(mockUsers[1])
@@ -59,7 +60,7 @@ describe('TestAccounts.vue', () => {
 
       await alerts[2].trigger('click')
 
-      const emitted = wrapper.emitted('select-account')
+      const emitted = wrapper.emitted('select-account') as [MockUser][] | undefined
       expect(emitted).toBeTruthy()
       expect(emitted!.length).toBe(1)
       expect(emitted![0][0]).toEqual(mockUsers[2])
@@ -76,7 +77,7 @@ describe('TestAccounts.vue', () => {
       await alerts[2].trigger('click')
       await alerts[1].trigger('click')
 
-      const emitted = wrapper.emitted('select-account')
+      const emitted = wrapper.emitted('select-account') as [MockUser][] | undefined
       expect(emitted).toBeTruthy()
       expect(emitted!.length).toBe(3)
       expect(emitted![0][0].role).toBe('admin')

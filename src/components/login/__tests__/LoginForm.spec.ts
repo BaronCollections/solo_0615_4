@@ -1,8 +1,9 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import ElementPlus from 'element-plus'
 import LoginForm from '../LoginForm.vue'
+import type { LoginFormData } from '../../../types/auth'
 import { mockUsers } from '../../../mock/accounts'
 
 describe('LoginForm.vue', () => {
@@ -99,16 +100,18 @@ describe('LoginForm.vue', () => {
       const wrapper = mountComponent({ rememberMe: false })
 
       const checkboxRealInput = wrapper.find('.el-checkbox input[type="checkbox"]')
-      await checkboxRealInput.setChecked(true)
+      const el = checkboxRealInput.element as HTMLInputElement
+      el.checked = true
+      await checkboxRealInput.trigger('change')
       await nextTick()
 
-      const updateEvents = wrapper.emitted('update:rememberMe')
+      const updateEvents = wrapper.emitted('update:rememberMe') as any[]
       expect(updateEvents).toBeTruthy()
-      expect(updateEvents![updateEvents!.length - 1][0]).toBe(true)
+      expect(updateEvents[updateEvents.length - 1][0]).toBe(true)
 
-      const changeEvents = wrapper.emitted('rememberMeChange')
+      const changeEvents = wrapper.emitted('rememberMeChange') as any[]
       expect(changeEvents).toBeTruthy()
-      expect(changeEvents![changeEvents!.length - 1][0]).toBe(true)
+      expect(changeEvents[changeEvents.length - 1][0]).toBe(true)
     })
   })
 
@@ -124,7 +127,7 @@ describe('LoginForm.vue', () => {
       await button.trigger('click')
       await nextTick()
 
-      const submitEvents = wrapper.emitted('submit')
+      const submitEvents = wrapper.emitted('submit') as [LoginFormData][] | undefined
       expect(submitEvents).toBeTruthy()
       expect(submitEvents![0][0].username).toBe('admin')
       expect(submitEvents![0][0].password).toBe('admin123')
@@ -141,7 +144,7 @@ describe('LoginForm.vue', () => {
       await passwordInput.trigger('keyup.enter')
       await nextTick()
 
-      const submitEvents = wrapper.emitted('submit')
+      const submitEvents = wrapper.emitted('submit') as [LoginFormData][] | undefined
       expect(submitEvents).toBeTruthy()
       expect(submitEvents![0][0].username).toBe('student')
       expect(submitEvents![0][0].password).toBe('student123')
